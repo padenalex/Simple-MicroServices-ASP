@@ -62,7 +62,8 @@ namespace WagonWheel.API
                 app.UseDeveloperExceptionPage();
                 app.UseCors();
             }
-
+            
+            app.UseHttpsRedirection();
             app.UseRouting();
 
             app.UseAuthentication();
