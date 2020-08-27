@@ -26,7 +26,8 @@ namespace MVC
         public void ConfigureServices(IServiceCollection services)
         {
            services.AddControllersWithViews();
-           JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+           //JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+           JwtSecurityTokenHandler.DefaultMapInboundClaims = false;
 
            services.AddAuthentication(options =>
                {
@@ -36,10 +37,15 @@ namespace MVC
                .AddCookie("Cookies")
                .AddOpenIdConnect("oidc", options =>
                {
-                   options.SignInScheme = "Cookies";
                    options.Authority = "https://localhost:5000";
-                   options.RequireHttpsMetadata = false;
+
                    options.ClientId = "mvc";
+                   options.ClientSecret = "secret";
+                   options.ResponseType = "code";
+                
+                   options.Scope.Add("api");
+                   options.Scope.Add("offline_access");
+
                    options.SaveTokens = true;
                });
         }
@@ -61,7 +67,7 @@ namespace MVC
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Strict });
+            app.UseCookiePolicy(new CookiePolicyOptions { MinimumSameSitePolicy = SameSiteMode.Lax });
             app.UseRouting();
             app.UseAuthentication();
             app.UseAuthorization();

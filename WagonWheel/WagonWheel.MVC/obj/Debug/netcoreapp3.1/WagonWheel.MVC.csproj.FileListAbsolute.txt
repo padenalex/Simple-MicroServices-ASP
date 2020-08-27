@@ -42,3 +42,4 @@
 /Users/alex/Desktop/WagonWheel/WagonWheel/WagonWheel.MVC/bin/Debug/netcoreapp3.1/Microsoft.IdentityModel.Tokens.dll
 /Users/alex/Desktop/WagonWheel/WagonWheel/WagonWheel.MVC/bin/Debug/netcoreapp3.1/Newtonsoft.Json.dll
 /Users/alex/Desktop/WagonWheel/WagonWheel/WagonWheel.MVC/bin/Debug/netcoreapp3.1/System.IdentityModel.Tokens.Jwt.dll
+/Users/alex/Desktop/WagonWheel/WagonWheel/WagonWheel.MVC/obj/Debug/netcoreapp3.1/Razor/Views/Home/json.cshtml.g.cs

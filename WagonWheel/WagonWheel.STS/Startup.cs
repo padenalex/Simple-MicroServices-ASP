@@ -45,8 +45,9 @@ namespace STS
                     options.Events.RaiseSuccessEvents = true;
                     options.EmitStaticAudienceClaim = true;
                 })
-                .AddInMemoryIdentityResources(Config.GetIdentityResources())
-                .AddInMemoryClients(Config.GetClients())
+                .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddInMemoryApiScopes(Config.ApiScopes)
+                .AddInMemoryClients(Config.Clients)
                 .AddAspNetIdentity<ApplicationUser>();
             
             builder.AddDeveloperSigningCredential();

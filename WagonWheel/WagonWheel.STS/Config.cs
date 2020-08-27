@@ -3,51 +3,47 @@ using IdentityServer4;
 using IdentityServer4.Models;
 
 public static class Config
-{
-    public static IEnumerable<IdentityResource> GetIdentityResources()
     {
-        return new List<IdentityResource>
-        {
-            new IdentityResources.OpenId(),
-            new IdentityResources.Profile(),
-        };
-    }
-
-    public static IEnumerable<ApiResource> GetApis()
-    {
-        return new List<ApiResource>
-        {
-            new ApiResource("api1", "My API")
-        };
-    }
-
-    public static IEnumerable<Client> GetClients()
-    {
-        return new List<Client>
-        {
-            // other clients omitted...
-
-            // OpenID Connect implicit flow client (MVC)
-            new Client
+        public static IEnumerable<IdentityResource> IdentityResources =>
+            new List<IdentityResource>
             {
-                ClientId = "mvc",
-                ClientName = "MVC Client",
-                AllowedGrantTypes = GrantTypes.Implicit,
-                RequireClientSecret = false,
-                RequireConsent = false,
+                new IdentityResources.OpenId(),
+                new IdentityResources.Profile(),
+            };
 
-                // where to redirect to after login
-                RedirectUris = { "http://localhost:5002/signin-oidc" },
 
-                // where to redirect to after logout
-                PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
-                
-                AllowedScopes = new List<string>
+        public static IEnumerable<ApiScope> ApiScopes =>
+            new List<ApiScope>
+            {
+                new ApiScope("api", "My API")
+            };
+
+        public static IEnumerable<Client> Clients =>
+            new List<Client>
+            {
+                new Client
                 {
-                    IdentityServerConstants.StandardScopes.OpenId,
-                    IdentityServerConstants.StandardScopes.Profile
+                    ClientId = "mvc",
+                    ClientSecrets = { new Secret("secret".Sha256()) },
+
+                    AllowedGrantTypes = GrantTypes.Code,
+                    RequireConsent = false,
+                    RequirePkce = true,
+                    
+                    // where to redirect to after login
+                    RedirectUris = { "http://localhost:5002/signin-oidc" },
+
+                    // where to redirect to after logout
+                    PostLogoutRedirectUris = { "http://localhost:5002/signout-callback-oidc" },
+
+                    AllowedScopes = new List<string>
+                    {
+                        IdentityServerConstants.StandardScopes.OpenId,
+                        IdentityServerConstants.StandardScopes.Profile,
+                        "api"
+                    },
+                    
+                    AllowOfflineAccess = true
                 }
-            }
-        };
-    }
+            };
 }
